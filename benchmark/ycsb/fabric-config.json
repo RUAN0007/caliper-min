@@ -1,0 +1,34 @@
+{
+   "blockchain": {
+        "type": "fabric"
+  },
+  "command" : {
+    "start": "sleep 5",
+    "end" : "sleep 5"
+  },
+  "contracts": [{"id": "ycsb", "path": "contract/fabric/ycsb", "language":"golang", "version": "v0"}],
+  "test": {
+    "name": "ycsb",
+    "description" : "This is ycsb benchmark for caliper",
+    "clients": {
+      "type": "local",
+      "number": 10
+    },
+    "rounds": [
+      {
+        "label" : "insert",
+        "txNumber" : [1000],
+        "rateControl" : [{"type": "fixed-rate", "opts": {"tps" : 400}}],
+        "arguments": {"txnPerBatch":1, "fieldCount": 10, "fieldLength": 10},
+        "callback" : "benchmark/ycsb/insert.js"
+      }
+      , 
+      { "label" : "txn",
+        "txNumber" : [1000],
+        "rateControl" : [{"type": "fixed-rate", "opts": {"tps" : 100}}],
+        "arguments": {"txnPerBatch":1, "distribution": "uniform", "recordCount": 1000, "readRatio": 0.0, "lqueryRatio":0.5, "updateRatio": 0.5, "insertRatio": 0.0, "deleteRatio": 0.0, "modifyRatio": 0.0},
+        "callback" : "benchmark/ycsb/txn.js"
+      }
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+   "blockchain": {
+        "type": "fabric"
+  },
+  "contracts": [{"id": "ycsb", "path": "contract/fabric/ycsb", "language":"golang", "version": "v0"}],
+  "test": {
+    "name": "ycsb",
+    "description" : "This is ycsb benchmark for caliper",
+    "clients": {
+      "type": "zookeeper",
+        "zoo" : {
+          "server": "slave-40:2181",
+          "clientsPerHost": 32
+        }
+    },
+    "rounds": [
+      {
+        "label" : "insert",
+        "txNumber" : [12000],
+        "rateControl" : [{"type": "fixed-rate", "opts": {"tps" : 400}}],
+        "arguments": {"txnPerBatch":1, "fieldCount": 1, "fieldLength": 1000},
+        "callback" : "benchmark/ycsb/insert.js"
+      }
+    ]
+  },
+  "command" : {
+    "start": " sleep 5",
+    "end" : " sleep 5"
+  }
+}

@@ -1,0 +1,31 @@
+{
+   "blockchain": {
+        "type": "quorum"
+  },
+  "contracts": [{"name": "ycsb", "path": "src/contract/quorum/ycsb.sol"}],
+  "test": {
+    "name": "ycsb",
+    "description" : "This is ycsb benchmark for caliper",
+    "clients": {
+      "type": "zookeeper",
+        "zoo" : {
+          "server": "slave-40:2181",
+          "clientsPerHost": 32
+        }
+    },
+    "rounds": [
+      {
+        "label" : "insert",
+        "txNumber" : [60000],
+        "rateControl" : [{"type": "fixed-rate", "opts": {"tps" : 1500}}],
+        "arguments": {"txnPerBatch":1, "fieldCount": 1, "fieldLength": 10},
+        "callback" : "benchmark/ycsb/insert.js"
+      }
+    ]
+  },
+  "command" : {
+    "start": "sleep 5",
+    "end" : "sleep 5"
+  }
+
+}

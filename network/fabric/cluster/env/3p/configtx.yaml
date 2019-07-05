@@ -1,0 +1,118 @@
+Application:
+  Organizations: null
+  Policies: &id004
+    Admins:
+      Rule: MAJORITY Admins
+      Type: ImplicitMeta
+    Readers:
+      Rule: ANY Readers
+      Type: ImplicitMeta
+    Writers:
+      Rule: ANY Writers
+      Type: ImplicitMeta
+Capabilities:
+  Application:
+    V1_1: false
+    V1_2: false
+    V1_3: true
+  Global:
+    V1_3: true
+  Orderer:
+    V1_1: true
+Channel:
+  Capabilities: &id005
+    V1_3: true
+  Policies: &id012
+    Admins:
+      Rule: MAJORITY Admins
+      Type: ImplicitMeta
+    Readers:
+      Rule: ANY Readers
+      Type: ImplicitMeta
+    Writers:
+      Rule: ANY Writers
+      Type: ImplicitMeta
+Orderer:
+  Addresses: &id007
+  - slave-30:7050
+  - slave-31:7050
+  BatchSize: &id008
+    AbsoluteMaxBytes: 99 MB
+    MaxMessageCount: 100
+    PreferredMaxBytes: 5120 KB
+  BatchTimeout: 2s
+  Kafka: &id009
+    Brokers:
+    - slave-40:9092
+  OrdererType: kafka
+  Organizations: null
+  Policies: &id011
+    Admins:
+      Rule: MAJORITY Admins
+      Type: ImplicitMeta
+    BlockValidation:
+      Rule: ANY Writers
+      Type: ImplicitMeta
+    Readers:
+      Rule: ANY Readers
+      Type: ImplicitMeta
+    Writers:
+      Rule: ANY Writers
+      Type: ImplicitMeta
+Organizations:
+- &id010
+  AdminPrincipal: Role.ADMIN
+  ID: OrdererMSP
+  MSPDir: /users/ruanpc/caliper/network/fabric/cluster/env/3p/crypto_config/ordererOrganizations/example.com/msp
+  Name: OrdererOrg
+- &id001
+  AnchorPeers:
+  - Host: slave-3
+    Port: 7051
+  ID: Org1MSP
+  MSPDir: /users/ruanpc/caliper/network/fabric/cluster/env/3p/crypto_config/peerOrganizations/org1.example.com/msp
+  Name: Org1MSP
+- &id002
+  AnchorPeers:
+  - Host: slave-4
+    Port: 7051
+  ID: Org2MSP
+  MSPDir: /users/ruanpc/caliper/network/fabric/cluster/env/3p/crypto_config/peerOrganizations/org2.example.com/msp
+  Name: Org2MSP
+- &id003
+  AnchorPeers:
+  - Host: slave-5
+    Port: 7051
+  ID: Org3MSP
+  MSPDir: /users/ruanpc/caliper/network/fabric/cluster/env/3p/crypto_config/peerOrganizations/org3.example.com/msp
+  Name: Org3MSP
+Profiles:
+  OrgsChannel:
+    Application:
+      Capabilities:
+        V1_1: false
+        V1_2: false
+        V1_3: true
+      Organizations: &id006
+      - *id001
+      - *id002
+      - *id003
+      Policies: *id004
+    Consortium: SampleConsortium
+  OrgsOrdererGenesis:
+    Capabilities: *id005
+    Consortiums:
+      SampleConsortium:
+        Organizations: *id006
+    Orderer:
+      Addresses: *id007
+      BatchSize: *id008
+      BatchTimeout: 2s
+      Capabilities:
+        V1_1: true
+      Kafka: *id009
+      OrdererType: kafka
+      Organizations:
+      - *id010
+      Policies: *id011
+    Policies: *id012

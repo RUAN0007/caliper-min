@@ -1,0 +1,1 @@
+Identical to *caliper/benchmark/smallbank/README.md*

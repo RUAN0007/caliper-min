@@ -1,0 +1,34 @@
+{
+   "blockchain": {
+        "type": "quorum"
+  },
+  "command" : {
+    "start": "sleep 1",
+    "end" : "sleep 5"
+  },
+  "contracts": [{"name": "smallbank", "path": "src/contract/quorum/smallbank.sol"}],
+  "test": {
+    "name": "smallbank",
+    "description" : "This is smallbank benchmark for caliper",
+    "clients": {
+      "type": "local",
+      "number": 4
+    },
+    "rounds": [
+      {
+        "label" : "load",
+        "txNumber" : [1000],
+        "rateControl" : [{"type": "fixed-rate", "opts": {"tps" : 100}}],
+        "arguments": {"txnPerBatch":1},
+        "callback" : "benchmark/smallbank/load.js"
+      }
+      , {
+        "label" : "mixed",
+        "txNumber" : [120],
+        "rateControl" : [{"type": "fixed-rate", "opts": {"tps" : 12}}],
+        "arguments": {"queryRatio": 0.5, "txnPerBatch":1},
+        "callback" : "benchmark/smallbank/mixed.js"
+      }
+    ]
+  }
+}
