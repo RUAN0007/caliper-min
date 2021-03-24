@@ -126,7 +126,7 @@ class Fabric extends BlockchainInterface{
      * @param {number} timeout The timeout to set for the execution in seconds.
      * @return {Promise<object>} The promise for the result of the execution.
      */
-    invokeSmartContract(context, contractID, contractVer, args, timeout) {
+    invokeSmartContract(context, contractID, contractVer, args, timeout, endorseSleepMS) {
         let promises = [];
         args.forEach((item, index)=>{
             try {
@@ -144,7 +144,7 @@ class Fabric extends BlockchainInterface{
                 if(func) {
                     simpleArgs.splice(0, 0, func);
                 }
-                promises.push(e2eUtils.invokebycontext(context, contractID, contractVer, simpleArgs, timeout));
+                promises.push(e2eUtils.invokebycontext(context, contractID, contractVer, simpleArgs, timeout, endorseSleepMS));
             }
             catch(err) {
                 commUtils.log(err);

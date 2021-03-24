@@ -718,7 +718,7 @@ module.exports.releasecontext = releasecontext;
  * @param {number} timeout The timeout for the transaction invocation.
  * @return {Promise<TxStatus>} The result and stats of the transaction invocation.
  */
-async function invokebycontext(context, id, version, args, timeout){
+async function invokebycontext(context, id, version, args, timeout, endorseSleepMS){
     const TxErrorEnum = require('./constant.js').TxErrorEnum;
     const TxErrorIndex = require('./constant.js').TxErrorIndex;
 
@@ -812,6 +812,10 @@ async function invokebycontext(context, id, version, args, timeout){
             proposalResponses: proposalResponses,
             proposal: proposal,
         };
+
+        if (endorseSleepMS != null && endorseSleepMS > 0) {
+            await timeoutPromise(endorseSleepMS);
+        }
 
         let broadcastResponse;
         try {

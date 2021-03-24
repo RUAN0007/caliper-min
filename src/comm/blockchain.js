@@ -218,7 +218,7 @@ class Blockchain {
      * @param {Number} timeout request timeout, in second
      * @return {Promise} txStatus object or an array of txStatus objects
      */
-    invokeSmartContract(context, contractID, contractVer, args, timeout) {
+    invokeSmartContract(context, contractID, contractVer, args, timeout, endorseSleepMS) {
         let arg, time;    // compatible with old version
         if(Array.isArray(args)) {
             arg = args;
@@ -241,7 +241,7 @@ class Blockchain {
 
         context.engine.submitCallback(arg.length);
 
-        return this.bcObj.invokeSmartContract(context, contractID, contractVer, arg, time).then((tx_statuses)=> {
+        return this.bcObj.invokeSmartContract(context, contractID, contractVer, arg, time, endorseSleepMS).then((tx_statuses)=> {
             let allConfirmed = true;
             tx_statuses.forEach(txn_status => {
                 txn_status.Set('operation', 'invoke');

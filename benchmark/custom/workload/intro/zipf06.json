@@ -1,0 +1,27 @@
+{
+  "blockchain": {
+       "type": "fabric"
+ },
+ "contracts": [{"id": "custom", "path": "contract/fabric/custom", "language":"golang", "version": "v0", "init":["10000"]}],
+ "test": {
+   "name": "custom",
+   "description" : "This is custom benchmark for caliper",
+   "clients": {
+     "type": "local",
+     "number": 4
+   },
+   "rounds": [
+     {
+       "label" : "txn",
+       "txDuration" : [60],
+       "rateControl" : [{"type": "fixed-rate", "opts": {"tps" : 700}}],
+       "arguments": {"accountNum":10000, "zipf_s": 0.6},
+       "callback" : "benchmark/custom/modify.js"
+     }      
+   ]
+ },
+ "command" : {
+   "start": "sleep 1",
+   "end" : "sleep 1"
+ }
+}
