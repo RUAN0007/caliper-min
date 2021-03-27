@@ -709,6 +709,11 @@ function releasecontext(context) {
 }
 module.exports.releasecontext = releasecontext;
 
+function timeoutPromise(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
 /**
  * Submit a transaction to the given chaincode with the specified options.
  * @param {object} context The Fabric context.

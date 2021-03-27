@@ -145,7 +145,7 @@ class Blockchain {
                     let txn_status = txn_statuses[j];
                     if (!txn_status.IsVerified() ) {
                         // 30s Time out a txn 
-                        if (Date.now() - txn_status.GetTimeCreate() > 30 * 1000) {
+                        if (Date.now() - txn_status.GetTimeCreate() > 10 * 1000) {
                             txn_status.SetVerification(true);
                             txn_status.SetStatusFail();
                             delete self.unconfirmed_txn_map[txn_status.GetID()];

@@ -32,49 +32,6 @@ let demo = require('../gui/src/demo.js');
 let absConfigFile, absNetworkFile;
 let absCaliperDir = path.join(__dirname, '..', '..');
 let statPath;
-
-/**
- * Generate mustache template for test report
- */
-// function createReport() {
-//     let config = require(absConfigFile);
-//     report  = new Report();
-//     report.addMetadata('DLT', blockchain.gettype());
-//     try{
-//         report.addMetadata('Benchmark', config.test.name);
-//     }
-//     catch(err) {
-//         report.addMetadata('Benchmark', ' ');
-//     }
-//     try{
-//         report.addMetadata('Description', config.test.description);
-//     }
-//     catch(err) {
-//         report.addMetadata('Description', ' ');
-//     }
-//     try{
-//         let r = 0;
-//         for(let i = 0 ; i < config.test.rounds.length ; i++) {
-//             if(config.test.rounds[i].hasOwnProperty('txNumber')) {
-//                 r += config.test.rounds[i].txNumber.length;
-//             }
-//         }
-//         report.addMetadata('Test Rounds', r);
-// 
-//         report.setBenchmarkInfo(JSON.stringify(config.test, null, 2));
-//     }
-//     catch(err) {
-//         report.addMetadata('Test Rounds', ' ');
-//     }
-// 
-//     let sut = require(absNetworkFile);
-//     if(sut.hasOwnProperty('info')) {
-//         for(let key in sut.info) {
-//             report.addSUTInfo(key, sut.info[key]);
-//         }
-//     }
-// }
-
 /**
  * print table
  * @param {Array} value rows of the table
@@ -83,6 +40,25 @@ function printTable(value) {
     let t = table.table(value, {border: table.getBorderCharacters('ramac')});
     log(t);
 }
+
+function initStatJson(absConfigFile, absResultFile) {
+    statPath = absResultFile;
+    ensureDirectoryExistence(statPath);
+    var init_json = JSON.stringify({});
+    fs.writeFileSync(statPath, init_json);
+    log("Creating empty stat file in " + statPath);
+}
+
+
+function ensureDirectoryExistence(filePath) {
+    var dirname = path.dirname(filePath);
+    if (fs.existsSync(dirname)) {
+      return true;
+    }
+    ensureDirectoryExistence(dirname);
+    fs.mkdirSync(dirname);
+  }
+
 
 /**
  * get the default result table's title
@@ -295,16 +271,6 @@ function processResult(results, label){
 
         fs.writeFileSync(statPath, JSON.stringify(stat_json, null, 4));
 
-//        let idx = report.addBenchmarkRound(label);
-//        report.setRoundPerformance(idx, resultTable);
-//        let resourceTable = monitor.getDefaultStats();
-//        if(resourceTable.length > 0) {
-//            log('### resource stats ###');
-//            printTable(resourceTable);
-//            report.setRoundResource(idx, resourceTable);
-//        }
-
-
         if(resultsbyround.length === 0) {
             resultsbyround.push(resultTable[0].slice(0));
         }
@@ -401,51 +367,18 @@ function defaultTest(args, clientArgs, contractID, final) {
     });
 }
 
-function ensureDirectoryExistence(filePath) {
-    var dirname = path.dirname(filePath);
-    if (fs.existsSync(dirname)) {
-      return true;
-    }
-    ensureDirectoryExistence(dirname);
-    fs.mkdirSync(dirname);
-  }
-
-function initStatJson(absConfigFile) {
-    let prefix="/data/ruanpc/exp_stat/caliper";
-    let today=new Date();
-    let month=today.getMonth()+1;
-    let monthStr="" + month;
-    if (month < 10) {
-        monthStr="0" + month;
-    }
-    let day=today.getDate();
-    let dateStr = "" + day;
-    if (day < 10) {
-        dateStr = "0" + day;
-    }
-    let date=dateStr + "-" + monthStr;
-    let absBenchDir=Util.resolvePath("benchmark");
-    let  relPath=path.relative(absBenchDir, absConfigFile);
-    statPath = path.join(prefix, date, relPath + ".res");
-
-    ensureDirectoryExistence(statPath);
-    var init_json = JSON.stringify({});
-    fs.writeFileSync(statPath, init_json);
-    log("Creating empty stat file in " + statPath);
-}
-
 /**
  * Start a default test flow to run the tests
  * @param {String} configFile path of the test configuration file
  * @param {String} networkFile path of the blockchain configuration file
  */
-module.exports.run = function(configFile, networkFile) {
+module.exports.run = function(configFile, networkFile, resultFile) {
     test('#######Caliper Test######', (t) => {
         global.tapeObj = t;
         absConfigFile  = Util.resolvePath(configFile);
         absNetworkFile = Util.resolvePath(networkFile);
 
-        initStatJson(absConfigFile);
+        initStatJson(absConfigFile, resultFile);
 
         blockchain = new Blockchain(absNetworkFile);
         //monitor = new Monitor(absConfigFile);
@@ -485,11 +418,7 @@ module.exports.run = function(configFile, networkFile) {
                 return blockchain.prepareClients(number);
             });
         }).then( (clientArgs) => {
-         //   monitor.start().then(()=>{
-         //       log('started monitor successfully');
-         //   }).catch( (err) => {
-         //       log('could not start monitor, ' + (err.stack ? err.stack : err));
-         //   });
+
             let allTests  = require(absConfigFile).test.rounds;
             let testIdx   = 0;
             let testNum   = allTests.length;
@@ -502,14 +431,7 @@ module.exports.run = function(configFile, networkFile) {
         }).then( () => {
             log('----------finished test----------\n');
             printResultsByRound();
-         //   monitor.printMaxStats();
-         //   monitor.stop();
-         //   let date = new Date().toISOString().replace(/-/g,'').replace(/:/g,'').substr(0,15);
-         //   let output = path.join(process.cwd(), 'report'+date+'.html' );
-         //   return report.generate(output).then(()=>{
-         //       log('Generated report at ' + output);
-         //       return Promise.resolve();
-         //   });
+
              demo.stopWatch("");
              return Promise.resolve();
         }).then( () => {
