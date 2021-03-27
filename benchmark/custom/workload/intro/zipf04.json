@@ -14,7 +14,7 @@
      {
        "label" : "txn",
        "txDuration" : [60],
-       "rateControl" : [{"type": "fixed-rate", "opts": {"tps" : 700}}],
+       "rateControl" : [{"type": "fixed-rate", "opts": {"tps" : 600}}],
        "arguments": {"accountNum":10000, "zipf_s": 0.4},
        "callback" : "benchmark/custom/modify.js"
      }      

@@ -1,20 +1,12 @@
 {
-  "name": "caliper",
+  "name": "caliper-min",
   "version": "0.1.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hyperledger/caliper"
-  },
-  "scripts": {
-    "test": "npm run lint && npm run nyc && npm run e2e",
-    "nyc": "nyc mocha --recursive -t 10000",
-    "e2e": "node ./scripts/test.js",
-    "lint": "npx eslint .",
-    "list": "node ./scripts/list.js",
-    "startclient": "node ./src/comm/client/zoo-client.js"
+    "url": "https://github.com/hyperledger/caliper-min"
   },
   "engines": {
-    "node": ">=8.10.0",
+    "node": "<9.0.0",
     "npm": ">=5.6.0"
   },
   "engine-strict": true,

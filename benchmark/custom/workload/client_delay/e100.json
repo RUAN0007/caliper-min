@@ -14,7 +14,7 @@
       {
         "label" : "txn",
         "txDuration" : [60],
-        "rateControl" : [{"type": "fixed-rate", "opts": {"tps" : 700}}],
+        "rateControl" : [{"type": "fixed-rate", "opts": {"tps" : 600}}],
         "arguments": {"accountNum":10000, "hotRatio": 0.01, "readNum": 4, "writeNum": 4, "readHotRatio":0.1, "writeHotRatio":0.1, "endorseSleepMS":100, "dataAccessIntervalMS": 0},
         "callback" : "benchmark/custom/txn.js"
       }      
