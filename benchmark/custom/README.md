@@ -24,7 +24,31 @@ npm install
 Make sure images are tagged with
 `hyperledger/fabric-orderer:latest` and  `hyperledger/fabric-peer:latest`.
 
+## Pull ccenv docker image
+
+```
+docker pull hyperledger/fabric-ccenv:1.3.0
+docker tag hyperledger/fabric-ccenv:1.3.0 hyperledger/fabric-ccenv:latest
+```
+
+Run `docker images` command and you should have the following outputs:
+
+```
+REPOSITORY                     TAG                              IMAGE ID            CREATED             SIZE
+hyperledger/fabric-orderer     amd64-1.3.1-snapshot-fc639da4c   bca1d14179af        23 minutes ago      145MB
+hyperledger/fabric-orderer     amd64-latest                     bca1d14179af        23 minutes ago      145MB
+hyperledger/fabric-orderer     latest                           bca1d14179af        23 minutes ago      145MB
+hyperledger/fabric-peer        amd64-1.3.1-snapshot-fc639da4c   56305ddd6419        24 minutes ago      151MB
+hyperledger/fabric-peer        amd64-latest                     56305ddd6419        24 minutes ago      151MB
+hyperledger/fabric-peer        latest                           56305ddd6419        24 minutes ago      151MB
+hyperledger/fabric-ccenv       1.3.0                            953124d80237        2 years ago         1.38GB
+hyperledger/fabric-ccenv       latest                           953124d80237        2 years ago         1.38GB
+hyperledger/fabric-baseimage   amd64-0.4.13                     27240288889f        2 years ago         1.34GB
+hyperledger/fabric-baseos      amd64-0.4.13                     f0fe49196c40        2 years ago         124MB
+```
+
 # Run Experiment
+
 ```
 workload_type="intro" # For Fig 1 in Sec 1 Intro
 workload_file="empty.json" # For the first-bar No-op
@@ -81,26 +105,6 @@ Then in the next run, try to lower down the request rate and decrease the worklo
 
 ## Failed to instantiate chaincodes
 
-Check logs of peer in `caliper-min/network/fabric/simple-docker/log/peer.log`. If there's an error says `Failed to generate platform-specific docker build: Failed to pull hyperledger/fabric-ccenv:latest: API error (404): manifest for hyperledger/fabric-ccenv:latest not found: manifest unknown: manifest unknown`, you probably lack necessary docker image. Following  the commands to solve it:
+Check logs of peer in `caliper-min/network/fabric/simple-docker/log/peer.log`. If there's an error says `Failed to generate platform-specific docker build: Failed to pull hyperledger/fabric-ccenv:latest: API error (404): manifest for hyperledger/fabric-ccenv:latest not found: manifest unknown: manifest unknown`, you probably lack necessary docker image. 
 
-```
-docker pull hyperledger/fabric-ccenv:1.3.0
-docker tag hyperledger/fabric-ccenv:1.3.0 hyperledger/fabric-ccenv:latest
-```
-
-Run `docker images` command and you should have the follow outputs:
-
-```
-REPOSITORY                     TAG                              IMAGE ID            CREATED             SIZE
-hyperledger/fabric-orderer     amd64-1.3.1-snapshot-fc639da4c   bca1d14179af        23 minutes ago      145MB
-hyperledger/fabric-orderer     amd64-latest                     bca1d14179af        23 minutes ago      145MB
-hyperledger/fabric-orderer     latest                           bca1d14179af        23 minutes ago      145MB
-hyperledger/fabric-peer        amd64-1.3.1-snapshot-fc639da4c   56305ddd6419        24 minutes ago      151MB
-hyperledger/fabric-peer        amd64-latest                     56305ddd6419        24 minutes ago      151MB
-hyperledger/fabric-peer        latest                           56305ddd6419        24 minutes ago      151MB
-hyperledger/fabric-ccenv       1.3.0                            953124d80237        2 years ago         1.38GB
-hyperledger/fabric-ccenv       latest                           953124d80237        2 years ago         1.38GB
-hyperledger/fabric-baseimage   amd64-0.4.13                     27240288889f        2 years ago         1.34GB
-hyperledger/fabric-baseos      amd64-0.4.13                     f0fe49196c40        2 years ago         124MB
-```
-
+See `Preparation -> Pull ccenv docker image ` to solve it.
