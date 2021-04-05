@@ -1,6 +1,6 @@
 # Overview
 This guide demonstrates how to reproduce experiments in SIGMOD 20 paper [A Transactional Perspective on Execute-order-validate Blockchains](https://dl.acm.org/doi/pdf/10.1145/3318464.3389693?casa_token=mDXF6kWKwNwAAAAA:4bbkxngYNKRuJbjvHGmFT1RcYzwbAJsOKJ_5t0MINsrKTIDPFdqYDjURsY1cbWYV3QkhRBhZvPqyxVw).
-We assume a single-peer and single-orderer network in docker, as provided [here](../../network/fabric/simple-docker). 
+We assume a single-peer and single-orderer network in docker, as provided [here](../../network/fabric/simpledocker). 
 # Preparation
 ## Install NodeJS and NPM
 The below shows my own versions. 
@@ -20,7 +20,11 @@ npm install
 ## Build Fabric peer and orderer docker
 * Clone FabricSharp [sigmod20](https://github.com/ooibc88/FabricSharp/tree/sigmod20) branch.
 * Build docker images for Fabric orderer and peer. 
-
+```
+# Assume under the root directory of the cloned repo
+make peer-docker;
+make orderer-docker;
+```
 Make sure images are tagged with
 `hyperledger/fabric-orderer:latest` and  `hyperledger/fabric-peer:latest`.
 
@@ -71,8 +75,8 @@ For Fig 10, you need to manually configure `$BLOCK_SIZE` in [env.sh](env.sh).
 ## Inspect Logs during Experiments
 ```
 # Assume under caliper-min/
-less +F network/fabric/simple-docker/log/orderer.log
-less +F network/fabric/simple-docker/log/peer.log
+less +F network/fabric/simpledocker/log/orderer.log
+less +F network/fabric/simpledocker/log/peer.log
 ```
 
 ## Check Results after Experiments
@@ -105,6 +109,6 @@ Then in the next run, try to lower down the request rate and decrease the worklo
 
 ## Failed to instantiate chaincodes
 
-Check logs of peer in `caliper-min/network/fabric/simple-docker/log/peer.log`. If there's an error says `Failed to generate platform-specific docker build: Failed to pull hyperledger/fabric-ccenv:latest: API error (404): manifest for hyperledger/fabric-ccenv:latest not found: manifest unknown: manifest unknown`, you probably lack necessary docker image. 
+Check logs of peer in `caliper-min/network/fabric/simpledocker/log/peer.log`. If there's an error says `Failed to generate platform-specific docker build: Failed to pull hyperledger/fabric-ccenv:latest: API error (404): manifest for hyperledger/fabric-ccenv:latest not found: manifest unknown: manifest unknown`, you probably lack necessary docker image. 
 
 See `Preparation -> Pull ccenv docker image ` to solve it.
