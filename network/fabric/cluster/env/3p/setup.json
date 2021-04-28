@@ -2,7 +2,7 @@
   "fabric": {
     "channel": [
       {
-        "config": "network/fabric/cluster/env/3p/channel_artifacts/channel.tx", 
+        "config": "network/fabric/cluster/env/3p/channel_artifacts/rpcchannel.tx", 
         "deployed": false, 
         "name": "rpcchannel", 
         "organizations": [
