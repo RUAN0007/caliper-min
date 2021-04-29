@@ -53,7 +53,7 @@
       ], 
       "org1": {
         "mspid": "Org1MSP", 
-        "name": "peerOrg1", 
+        "name": "org1", 
         "peer0": {
           "requests": "grpcs://peer0.org1.example.com:7051", 
           "server-hostname": "peer0.org1.example.com", 
@@ -66,7 +66,7 @@
       }, 
       "org2": {
         "mspid": "Org2MSP", 
-        "name": "peerOrg2", 
+        "name": "org2", 
         "peer0": {
           "requests": "grpcs://peer0.org2.example.com:9051", 
           "server-hostname": "peer0.org2.example.com", 
