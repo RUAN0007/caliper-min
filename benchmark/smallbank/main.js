@@ -76,7 +76,7 @@ function main() {
 
 
     let framework = require('../../src/comm/bench-flow.js');
-    framework.run(absConfigFile, absNetworkFile);
+    framework.run(absConfigFile, absNetworkFile, 'result.json');
 }
 
 main();
