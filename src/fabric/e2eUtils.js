@@ -667,8 +667,8 @@ function getcontext(channelConfig, clientIdx) {
                 let peer = client.newPeer(
                     peerInfo.requests,
                     {
-                        // pem: Buffer.from(data).toString(),
-                        // 'ssl-target-name-override': peerInfo['server-hostname']
+                        pem: Buffer.from(data).toString(),
+                        'ssl-target-name-override': peerInfo['server-hostname']
                     }
                 );
                 channel.addPeer(peer);
