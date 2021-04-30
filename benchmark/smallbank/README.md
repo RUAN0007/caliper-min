@@ -8,10 +8,10 @@
 # node main.js -c <workload-json> -n <relative/path/to/fabric/setup.json> 
 
 # Single client
-node main.js -c fabric-config=.json -n ../../network/fabric/cluster/env/3p/setup.json
+node main.js -c ../benchmark/smallbank/fabric-config.json -n ../network/fabric/cluster/env/3p/setup.json
 
 # Multiple clients for the distributed benchmark
-node main.js -c fabric-config-zk.json -n ../../network/fabric/cluster/env/3p/setup.json
+node main.js -c ../benchmark/smallbank/fabric-config-zk.json -n ../network/fabric/cluster/env/3p/setup.json
 ```
 ## Step 3: Turn down the network
 * Follow the README.md in *caliper/network/fabric*
