@@ -8,9 +8,10 @@
 
 'use strict';
 
-const log = require('../../src/comm/util.js').log;
+const log = require('./comm/util.js').log;
 let configFile;
 let networkFile;
+let resultFile;
 /**
  * sets the config file
  * @param {string} file indicates config file name
@@ -29,6 +30,10 @@ function setNetwork(file) {
     networkFile = file;
 }
 
+function setResult(file) {
+    resultFile = file;
+}
+
 /**
  * iniate and starts the benchmark test with input config params
  * @returns {void}
@@ -38,6 +43,7 @@ function main() {
     program.version('0.1')
         .option('-c, --config <file>', 'config file of the benchmark, default is config.json', setConfig)
         .option('-n, --network <file>', 'config file of the blockchain system under test, if not provided, blockchain property in benchmark config is used', setNetwork)
+        .option('-r, --result <file>', 'result file of the blockchain system under test, if not provided, default will be used', setResult)
         .parse(process.argv);
 
     let path = require('path');
@@ -55,7 +61,7 @@ function main() {
     }
 
     let absNetworkFile;
-    let absCaliperDir = path.join(__dirname, '../..');
+    let absCaliperDir = path.join(__dirname, './..');
     if(typeof networkFile === 'undefined') {
         try{
             let config = require(absConfigFile);
@@ -74,9 +80,12 @@ function main() {
         return;
     }
 
-
-    let framework = require('../../src/comm/bench-flow.js');
-    framework.run(absConfigFile, absNetworkFile);
+    let framework = require('./comm/bench-flow.js');
+    if (typeof resultFile === 'undefined') {
+        framework.run(absConfigFile, absNetworkFile, 'result.json')
+    } else {
+        framework.run(absConfigFile, absNetworkFile, resultFile);
+    }
 }
 
 main();
