@@ -497,12 +497,6 @@ function instantiateChaincode(chaincode, endorsement_policy, upgrade){
             if (proposalResponses[i].response && proposalResponses[i].response.status === 200) {
                 one_good = true;
             }
-            console.log('================= this respone =================');
-            console.log(i);
-            console.log(proposalResponses[i].response);
-            console.log('================= this status ==================');
-            console.log(proposalResponses[i].response.status);
-
             all_good = all_good && one_good;
         }
         if (!all_good) {

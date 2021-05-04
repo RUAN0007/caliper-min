@@ -61,7 +61,7 @@ function main() {
     CC_TYPE=${ccType} TXN_SPAN_LIMIT=10 BLOCK_SIZE=${BLOCK_SIZE} docker-compose -f ${DOCKER_COMPOSE_PATH} up -d;
 
     echo "----------Run the benchmark------------"
-    timeout --foreground 2m node main.js -c "${workloadPath}" -n "${NETWORK_SETUP_PATH}" -r "$resultPath" > >(tee "${caliperStdoutPath}") 2> >(tee "${caliperStdErrPath}" >&2);
+    timeout --foreground 2m node ../../src/main.js -c "${workloadPath}" -n "${NETWORK_SETUP_PATH}" -r "$resultPath" > >(tee "${caliperStdoutPath}") 2> >(tee "${caliperStdErrPath}" >&2);
 
     echo "--------- Shut down Fabric-------------"
     docker-compose -f "${DOCKER_COMPOSE_PATH}" down;
