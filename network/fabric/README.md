@@ -22,6 +22,7 @@ This will be used later for the benchmark.
 ## Step 2: Benchmark
 * Go to corresponding workload directory (e.g, /caliper/benchmark/smallbank) and follow the README.md there
 * Need the above-mentioned path for *setup.json*
+* Make sure that all the Docker images and containers where chaincode is built are removed so that the change to chaincode will be reflected on the benchmark
 
 ## Step 3: Turn down the network
 * Pls help yourself
